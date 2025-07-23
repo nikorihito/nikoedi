@@ -1,0 +1,2 @@
+# nikoedi
+wage
