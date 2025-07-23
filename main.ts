@@ -8,7 +8,7 @@ let sizeZ = 0
 
 namespace NikoriEdit {
 
-    export function say( {
+    export function say() {
         player.say("いやっほ")
     }
 
