@@ -8,6 +8,10 @@ let sizeZ = 0
 
 namespace NikoriEdit {
 
+    export function say( {
+        player.say("いやっほ")
+    }
+
     //% block="位置1を設定"
     //% blockNamespace="NikoriEdit"
     export function setPos1() {
