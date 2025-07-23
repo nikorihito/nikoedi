@@ -12,21 +12,21 @@ namespace NikoriEdit {
     //% blockNamespace="NikoriEdit"
     export function setPos1() {
         pos1 = player.position()
-        player.say("位置1を設定しました: " + pos1)
+        player.say("位置1を設定しました: " + pos1.toString())
     }
 
     //% block="位置2を設定"
     //% blockNamespace="NikoriEdit"
     export function setPos2() {
         pos2 = player.position()
-        player.say("位置2を設定しました: " + pos2)
+        player.say("位置2を設定しました: " + pos2.toString())
     }
 
     //% block="貼り付け起点を設定"
     //% blockNamespace="NikoriEdit"
     export function setOrigin() {
         origin = player.position()
-        player.say("貼り付け基準位置を設定しました: " + origin)
+        player.say("貼り付け起点を設定しました: " + origin.toString())
     }
 
     //% block="範囲を $blockName ブロックで埋める"
@@ -79,32 +79,29 @@ namespace NikoriEdit {
     //% block="範囲に $block で箱を設置"
     //% blockNamespace="NikoriEdit"
     export function box(block: string) {
-        if (pos1 && pos2) {
-            blocks.fill(block, pos1, pos2, FillOperation.Replace)
-        }
+        fillBlocks(block)
     }
 
     //% block="範囲をコピー"
     //% blockNamespace="NikoriEdit"
     export function copy() {
         if (pos1 && pos2) {
-            const p1 = pos1
-            const p2 = pos2
             clipboard = []
-            for (let x = 0; x <= Math.abs(p2.getValue(Axis.X) - p1.getValue(Axis.X)); x++) {
+            sizeX = Math.abs(pos2.getValue(Axis.X) - pos1.getValue(Axis.X)) + 1
+            sizeY = Math.abs(pos2.getValue(Axis.Y) - pos1.getValue(Axis.Y)) + 1
+            sizeZ = Math.abs(pos2.getValue(Axis.Z) - pos1.getValue(Axis.Z)) + 1
+
+            for (let x = 0; x < sizeX; x++) {
                 clipboard[x] = []
-                for (let y = 0; y <= Math.abs(p2.getValue(Axis.Y) - p1.getValue(Axis.Y)); y++) {
+                for (let y = 0; y < sizeY; y++) {
                     clipboard[x][y] = []
-                    for (let z = 0; z <= Math.abs(p2.getValue(Axis.Z) - p1.getValue(Axis.Z)); z++) {
-                        const pos = positions.add(p1, x, y, z)
-                        const block = blocks.testForBlock("air", pos) ? "air" : blocks.block(pos).toString()
-                        clipboard[x][y][z] = block
+                    for (let z = 0; z < sizeZ; z++) {
+                        let pos = positions.add(pos1, x, y, z)
+                        let blockName = blocks.block(pos).toString()
+                        clipboard[x][y][z] = blockName
                     }
                 }
             }
-            sizeX = clipboard.length
-            sizeY = clipboard[0].length
-            sizeZ = clipboard[0][0].length
             player.say("コピー完了")
         }
     }
@@ -112,15 +109,16 @@ namespace NikoriEdit {
     //% block="コピーした範囲を貼り付け"
     //% blockNamespace="NikoriEdit"
     export function paste() {
-        if (!origin || clipboard.length === 0) return
+        if (clipboard.length === 0 || origin == null) {
+            player.say("貼り付けできません。")
+            return
+        }
 
         for (let x = 0; x < sizeX; x++) {
             for (let y = 0; y < sizeY; y++) {
                 for (let z = 0; z < sizeZ; z++) {
-                    const blockName = clipboard[x][y][z]
-                    if (blockName !== "air") {
-                        blocks.place(blockName, positions.add(origin, x, y, z))
-                    }
+                    let blockName = clipboard[x][y][z]
+                    blocks.place(blockName, positions.add(origin, x, y, z))
                 }
             }
         }
