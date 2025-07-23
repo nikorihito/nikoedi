@@ -1,50 +1,68 @@
 let pos1: Position = null
 let pos2: Position = null
-player.onChat("pillar", function (num1) {
+
+//% block="柱を作成 | 高さ: %height" 
+//% height.defl=5
+//% blockId=make_pillar
+//% weight=100
+export function makePillar(height: number): void {
     blocks.fill(
-    agent.inspect(AgentInspection.Block, DOWN),
-    player.position(),
-    positions.add(
-    player.position(),
-    pos(0, num1, 0)
-    ),
-    FillOperation.Replace
+        agent.inspect(AgentInspection.Block, DOWN),
+        player.position(),
+        positions.add(player.position(), pos(0, height, 0)),
+        FillOperation.Replace
     )
-    player.say("" + blocks.nameOfBlock(agent.inspect(AgentInspection.Block, DOWN)) + "で柱を作成しました")
-})
-player.onChat("pos1", function () {
+    player.say(blocks.nameOfBlock(agent.inspect(AgentInspection.Block, DOWN)) + "で柱を作成しました")
+}
+
+//% block="位置1を記録"
+//% blockId=set_pos1
+//% weight=95
+export function setPos1(): void {
     pos1 = player.position()
     player.say("位置1を設定しました")
-})
-player.onChat("copy", function () {
-    let num1 = 0
-    blocks.saveStructure(
-    "copy_structure",
-    pos1,
-    pos2
-    )
-})
-player.onChat("pos2", function () {
+}
+
+//% block="位置2を記録"
+//% blockId=set_pos2
+//% weight=94
+export function setPos2(): void {
     pos2 = player.position()
     player.say("位置2を設定しました")
-})
-player.onChat("fill", function () {
+}
+
+//% block="範囲を埋める"
+//% blockId=fill_area
+//% weight=90
+export function fillArea(): void {
     if (pos1 && pos2) {
         blocks.fill(
-        agent.inspect(AgentInspection.Block, DOWN),
-        pos1,
-        pos2,
-        FillOperation.Replace
+            agent.inspect(AgentInspection.Block, DOWN),
+            pos1,
+            pos2,
+            FillOperation.Replace
         )
-        player.say("" + blocks.nameOfBlock(agent.inspect(AgentInspection.Block, DOWN)) + "で埋めました")
+        player.say(blocks.nameOfBlock(agent.inspect(AgentInspection.Block, DOWN)) + "で埋めました")
     }
-})
-player.onChat("tp_agent", function () {
+}
+
+//% block="構造を保存"
+//% blockId=save_structure
+//% weight=80
+export function saveStructure(): void {
+    blocks.saveStructure("copy_structure", pos1, pos2)
+}
+
+//% block="構造を貼り付け"
+//% blockId=paste_structure
+//% weight=70
+export function pasteStructure(): void {
+    blocks.loadStructure("copy_structure", player.position())
+}
+
+//% block="エージェントをプレイヤーにテレポート"
+//% blockId=tp_agent
+//% weight=60
+export function teleportAgent(): void {
     agent.teleportToPlayer()
-})
-player.onChat("paste", function () {
-    blocks.loadStructure(
-    "copy_structure",
-    player.position()
-    )
-})
+}
