@@ -8,11 +8,9 @@ Minecraft Education Edition 上で「WorldEdit風の編集」ができる便利�
 ## 🔧 主な機能
 
 - `pos1` / `pos2`：ブロック選択範囲の設定
-- `fill <ブロック名>`：選択範囲にブロックを設置
-- `set <ブロック名>`：fillの別名（任意）
-- `clear`：範囲を空気で埋めて削除
-- `copy` / `paste`：構造の複製（開発中）
-- `save <名前>` / `load <名前>`：構造の保存と読み込み（開発中）
+- `fill `：選択範囲にブロックを設置
+- `copy` / `paste`：構造の複製
+- `tp_agent`：エージェントをtpさせる
 
 ---
 
@@ -21,9 +19,11 @@ Minecraft Education Edition 上で「WorldEdit風の編集」ができる便利�
 1. プレイヤーがマイクラ内で移動して範囲を決めます。
 2. チャット欄に次のように入力：
     ```
+    
+    /tp_agent  （材料にするブロックの上で、今回は石の上）
     /pos1
     /pos2
-    /fill stone
+    /fill 
     ```
 3. 範囲に `stone（石）` ブロックが自動で設置されます。
 
