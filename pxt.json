@@ -11,5 +11,12 @@
   "target": "minecraft",
   "supportedTargets": ["minecraft"],
   "preferredEditor": "ts",
-  "icon": "icon.png"
+  "icon": "icon.png",
+  "groups": [
+    {
+      "name": "ニコリエディット",
+      "color": "#FF9800",        // ← カテゴリの色（オレンジ系）
+      "icon": "🧱"                // ← カテゴリの絵文字（好きなものに変更可）
+    }
+  ]
 }
