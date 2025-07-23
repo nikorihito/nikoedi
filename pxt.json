@@ -1,0 +1,13 @@
+{
+  "name": "nikori-edit",
+  "description": "マイクラで使えるWorldEdit風ツール。チャットコマンドで建築操作が可能！",
+  "dependencies": {},
+  "files": [
+    "main.ts",
+    "icon.png"
+  ],
+  "public": true,
+  "supportedTargets": ["minecraft"],
+  "preferredEditor": "ts",
+  "icon": "icon.png"
+}
